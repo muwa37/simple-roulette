@@ -1,0 +1,60 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .container {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    border: #000 solid 4px;
+
+    .preview,
+    .action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      color: #4d3b3b;
+    }
+
+    .preview {
+      flex: 1;
+      background: linear-gradient(to top, #3f3f3f, #fff);
+
+      &.rarity-red {
+        background: linear-gradient(to top, #e57373, #ef9a9a);
+      }
+      &.rarity-yellow {
+        background: linear-gradient(to top, #fff176, #f4c542);
+      }
+      &.rarity-green {
+        background: linear-gradient(to top, #81c784, #a5d6a7);
+      }
+      &.rarity-blue {
+        background: linear-gradient(to top, #64b5f6, #90caf9);
+      }
+      &.rarity-grey {
+        background: linear-gradient(to top, #b0bec5, #c1c8e4);
+      }
+      &.rarity-black {
+        background: linear-gradient(to top, #90a4ae, #cfd8dc);
+      }
+      &.rarity-purple {
+        background: linear-gradient(to top, #ab47bc, #ce93d8);
+      }
+    }
+
+    .action {
+      background-color: #b1abab;
+    }
+  }
+}

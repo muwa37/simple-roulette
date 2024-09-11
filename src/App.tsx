@@ -1,7 +1,9 @@
+import RoulettePage from './pages/RoulettePage';
+
 function App() {
   return (
     <>
-      <div>alive</div>
+      <RoulettePage />
     </>
   );
 }
