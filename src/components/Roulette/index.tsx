@@ -86,8 +86,8 @@ const Roulette: React.FC<RouletteProps> = ({
 
     const result = getRandomItem(playChances);
 
-    const itemWidth = 150 + 10; // Width + Gap
-    const resultIndex = getRandomNumberInRange(40, 60); // Random result index
+    const itemWidth = 150 + 10;
+    const resultIndex = getRandomNumberInRange(40, 60);
 
     if (result) {
       setProperties({
@@ -107,7 +107,7 @@ const Roulette: React.FC<RouletteProps> = ({
                 getRandomItem(fakeChances) || { color: 'unknown', rating: 0 }
             ),
         ],
-        offset: itemWidth * resultIndex - 2500,
+        offset: itemWidth * resultIndex - 2800,
       });
 
       setTimeout(() => onItemDrop(result), duration);
@@ -116,16 +116,16 @@ const Roulette: React.FC<RouletteProps> = ({
 
   useEffect(() => {
     if (properties?.offset !== undefined) {
-      console.log(properties.offset);
       setMargin(-properties.offset);
     }
-  }, [properties?.offset]);
+  }, [isSpinning, duration, properties?.offset]);
 
   return (
     <div className={styles.container}>
       <div className={styles.display}>
         <div className={styles.screen} />
         <div className={styles.pointer} />
+
         <div
           className={styles.roller}
           style={{

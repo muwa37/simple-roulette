@@ -1,9 +1,11 @@
 import { ItemType } from '../../types/item';
 import styles from './styles.module.scss';
+
 interface PopupProps {
   item: ItemType;
   onContinue: () => void;
 }
+
 const PopupItem = ({ item, onContinue }: PopupProps) => {
   return (
     <div className={styles.popup}>
