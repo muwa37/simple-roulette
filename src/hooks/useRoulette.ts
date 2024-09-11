@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getItems } from '../api/items';
-import { ItemType } from '../types/item';
+import { ItemType } from '../types/common';
 
 export const useRoulette = (initialDuration: number) => {
   const [items, setItems] = useState<ItemType[]>([]);

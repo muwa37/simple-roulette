@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { ItemType } from '../../types/item';
+import { Chances, ItemType } from '../../types/common';
+import {
+  chancedRandom,
+  fakeChances,
+  getRandomItemFromArray,
+  getRandomNumberInRange,
+  playChances,
+} from '../../utils/random';
 import Item from '../Item';
 import styles from './styles.module.scss';
-
-type Chances = Record<number, number>;
 
 interface RouletteProps {
   rouletteItems: ItemType[];
@@ -11,51 +16,6 @@ interface RouletteProps {
   duration: number;
   isSpinning: boolean;
 }
-
-const playChances: Chances = {
-  1: 50,
-  2: 20,
-  3: 15,
-  4: 7,
-  5: 4,
-  6: 3,
-  7: 1,
-};
-
-const fakeChances: Chances = {
-  1: 40,
-  2: 25,
-  3: 15,
-  4: 10,
-  5: 5,
-  6: 3,
-  7: 2,
-};
-
-const getRandomItemFromArray = <T,>(array: T[]): T =>
-  array[Math.floor(Math.random() * array.length)];
-
-const getRandomNumberInRange = (min: number, max: number): number =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
-
-const mapChances = (chances: Chances): Chances => {
-  return Object.fromEntries(
-    Object.entries(chances).map(([rating], i) => [
-      rating,
-      Object.values(chances)
-        .slice(0, i + 1)
-        .reduce((prev, cur) => prev + cur),
-    ])
-  );
-};
-
-const chancedRandom = (chances: Chances): number => {
-  const random = Math.random() * 100;
-  const [rating] = Object.entries(mapChances(chances)).find(
-    ([, chance]) => random < chance
-  ) || [1];
-  return parseInt(rating as string);
-};
 
 const Roulette: React.FC<RouletteProps> = ({
   rouletteItems,

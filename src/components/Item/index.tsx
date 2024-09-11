@@ -1,5 +1,5 @@
 import React from 'react';
-import { ItemType } from '../../types/item';
+import { ItemType } from '../../types/common';
 import styles from './styles.module.scss';
 
 interface ItemProps {
