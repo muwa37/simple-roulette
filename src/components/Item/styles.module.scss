@@ -1,18 +1,8 @@
 .item {
-  $size: 150px;
-  width: $size;
-  height: $size;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-
-  .price {
-    margin: 5px 10px;
-    font-size: 0.8em;
-    color: #fff;
-    font-weight: 600;
-    text-shadow: 0 0 5px #000;
-  }
 
   .info {
     padding: 3px 10px;
@@ -46,7 +36,7 @@
       background: linear-gradient(to right, #ab47bc, #ce93d8);
     }
 
-    .name {
+    .text {
       font-weight: 600;
     }
   }

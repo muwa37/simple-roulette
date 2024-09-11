@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getItems } from '../api/items';
 import PopupItem from '../components/PopupItem';
 import Roulette from '../components/Roulette';
@@ -6,22 +6,31 @@ import { ItemType } from '../types/item';
 
 const RoulettePage = () => {
   const [items, setItems] = useState<ItemType[]>([]);
+  const [duration, setDuration] = useState<number>(3000);
+  const [isSpinning, setIsSpinning] = useState<boolean>(false);
+
   const [popupItem, setPopupItem] = useState<ItemType | null>(null);
-  const [isRouletteRunning, setIsRouletteRunning] = useState(false); // Новое состояние для запуска рулетки
 
   useEffect(() => {
-    const items = getItems();
-    setItems(items);
+    const fetchItems = async () => {
+      const items = await getItems();
+      setItems(items);
+    };
+
+    fetchItems();
   }, []);
 
-  // Функция для обработки нажатия на кнопку
-  const handleStartRoulette = () => {
-    setIsRouletteRunning(true); // Запуск рулетки
+  const handleDrop = (item: ItemType) => {
+    setPopupItem(item);
   };
 
-  const handleItemDrop = (item: ItemType) => {
-    setPopupItem(item);
-    setIsRouletteRunning(false);
+  const handleDurationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDuration(parseInt(e.target.value, 10));
+  };
+
+  const handleSpinClick = () => {
+    setIsSpinning(true);
+    setTimeout(() => setIsSpinning(false), duration);
   };
 
   const handleContinueRoll = () => {
@@ -31,13 +40,20 @@ const RoulettePage = () => {
   return (
     <div>
       <h1>Simple Roulette</h1>
-      {isRouletteRunning && (
-        <Roulette rouletteItems={items} onItemDrop={handleItemDrop} />
-      )}
-      <button onClick={handleStartRoulette} disabled={isRouletteRunning}>
-        start roulette
-      </button>
-
+      <label htmlFor='duration'>Spin Duration:</label>
+      <select id='duration' onChange={handleDurationChange} value={duration}>
+        <option value={2000}>2 sec</option>
+        <option value={3000}>3 sec</option>
+        <option value={4000}>4 sec</option>
+        <option value={5000}>5 sec</option>
+      </select>
+      <button onClick={handleSpinClick}>Spin</button>
+      <Roulette
+        rouletteItems={items}
+        onItemDrop={handleDrop}
+        duration={duration}
+        isSpinning={isSpinning}
+      />
       {popupItem && (
         <PopupItem item={popupItem} onContinue={handleContinueRoll} />
       )}

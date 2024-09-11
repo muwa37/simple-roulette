@@ -14,7 +14,7 @@ const PopupItem = ({ item, onContinue }: PopupProps) => {
           <span>{item.rating}</span>
         </div>
         <div className={styles.action}>
-          <span>'u got new item!'</span>
+          <span>u got new item!</span>
           <button onClick={onContinue}>continue</button>
         </div>
       </div>

@@ -10,8 +10,8 @@ const Item: React.FC<ItemProps> = ({ item }) => {
   return (
     <div className={styles.item}>
       <div className={[styles.info, styles[`rarity-${item.color}`]].join(' ')}>
-        <span className={styles.name}>{item.color}</span>
-        <span className={styles.weapon}>{item.rating}</span>
+        <span className={styles.text}>{item.color}</span>
+        <span className={styles.text}>{item.rating}</span>
       </div>
     </div>
   );

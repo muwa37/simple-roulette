@@ -8,6 +8,8 @@ type Chances = Record<number, number>;
 interface RouletteProps {
   rouletteItems: ItemType[];
   onItemDrop: (item: ItemType) => void;
+  duration: number; // Duration of the spin
+  isSpinning: boolean; // Whether the roulette is currently spinning
 }
 
 const playChances: Chances = {
@@ -55,7 +57,12 @@ const chancedRandom = (chances: Chances): number => {
   return parseInt(rating as string);
 };
 
-const Roulette: React.FC<RouletteProps> = ({ rouletteItems, onItemDrop }) => {
+const Roulette: React.FC<RouletteProps> = ({
+  rouletteItems,
+  onItemDrop,
+  duration,
+  isSpinning,
+}) => {
   const [properties, setProperties] = useState<{
     result: ItemType;
     items: ItemType[];
@@ -64,6 +71,8 @@ const Roulette: React.FC<RouletteProps> = ({ rouletteItems, onItemDrop }) => {
   const [margin, setMargin] = useState(0);
 
   useEffect(() => {
+    if (!isSpinning) return;
+
     const getRandomItem = (chances: Chances): ItemType | undefined => {
       const rolledRarity = chancedRandom(chances);
       const rolledItems = rouletteItems.filter(
@@ -77,9 +86,8 @@ const Roulette: React.FC<RouletteProps> = ({ rouletteItems, onItemDrop }) => {
 
     const result = getRandomItem(playChances);
 
-    const itemWidth = 150 + 10; // Ширина элемента + отступ
-    const resultIndex = getRandomNumberInRange(40, 60); // Индекс элемента, на котором должна остановиться рулетка
-    const innerOffset = Math.random(); // Внутренний случайный смещение для добавления вариативности
+    const itemWidth = 150 + 10;
+    const resultIndex = getRandomNumberInRange(40, 60);
 
     if (result) {
       setProperties({
@@ -99,17 +107,16 @@ const Roulette: React.FC<RouletteProps> = ({ rouletteItems, onItemDrop }) => {
                 getRandomItem(fakeChances) || { color: 'unknown', rating: 0 }
             ),
         ],
-        offset: itemWidth * (resultIndex + innerOffset) - 250,
+        offset: itemWidth * resultIndex - 250,
       });
 
-      // Прекращение рулетки и вызов функции onItemDrop через 3 секунды
-      setTimeout(() => onItemDrop(result), 3000);
+      setTimeout(() => onItemDrop(result), duration);
     }
-  }, [rouletteItems, onItemDrop]);
+  }, [rouletteItems, onItemDrop, duration, isSpinning]);
 
   useEffect(() => {
     if (properties?.offset !== undefined) {
-      setMargin(-properties.offset); // Применение смещения
+      setMargin(-properties.offset);
     }
   }, [properties?.offset]);
 
@@ -118,7 +125,15 @@ const Roulette: React.FC<RouletteProps> = ({ rouletteItems, onItemDrop }) => {
       <div className={styles.display}>
         <div className={styles.screen} />
         <div className={styles.divider} />
-        <div className={styles.roller} style={{ marginLeft: margin }}>
+        <div
+          className={styles.roller}
+          style={{
+            marginLeft: margin,
+            transition: isSpinning
+              ? `margin-left ${duration}ms cubic-bezier(0.23, 0.78, 0.29, 1)`
+              : 'none',
+          }}
+        >
           {properties?.items?.map((item, i) => (
             <Item item={item} key={i} />
           ))}
