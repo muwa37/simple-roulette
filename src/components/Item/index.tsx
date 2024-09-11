@@ -8,10 +8,14 @@ interface ItemProps {
 
 const Item: React.FC<ItemProps> = ({ item }) => {
   return (
-    <div className={styles.item}>
-      <div className={[styles.info, styles[`rarity-${item.color}`]].join(' ')}>
-        <span className={styles.text}>{item.color}</span>
-        <span className={styles.text}>{item.rating}</span>
+    <div className={styles.container}>
+      <div className={styles.item}>
+        <div
+          className={[styles.info, styles[`rarity-${item.color}`]].join(' ')}
+        >
+          <span className={styles.text}>{item.color}</span>
+          <span className={styles.text}>{item.rating}</span>
+        </div>
       </div>
     </div>
   );

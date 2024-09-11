@@ -8,8 +8,8 @@ type Chances = Record<number, number>;
 interface RouletteProps {
   rouletteItems: ItemType[];
   onItemDrop: (item: ItemType) => void;
-  duration: number; // Duration of the spin
-  isSpinning: boolean; // Whether the roulette is currently spinning
+  duration: number;
+  isSpinning: boolean;
 }
 
 const playChances: Chances = {
@@ -67,7 +67,7 @@ const Roulette: React.FC<RouletteProps> = ({
     result: ItemType;
     items: ItemType[];
     offset: number;
-  }>();
+  } | null>(null);
   const [margin, setMargin] = useState(0);
 
   useEffect(() => {
@@ -86,8 +86,8 @@ const Roulette: React.FC<RouletteProps> = ({
 
     const result = getRandomItem(playChances);
 
-    const itemWidth = 150 + 10;
-    const resultIndex = getRandomNumberInRange(40, 60);
+    const itemWidth = 150 + 10; // Width + Gap
+    const resultIndex = getRandomNumberInRange(40, 60); // Random result index
 
     if (result) {
       setProperties({
@@ -107,7 +107,7 @@ const Roulette: React.FC<RouletteProps> = ({
                 getRandomItem(fakeChances) || { color: 'unknown', rating: 0 }
             ),
         ],
-        offset: itemWidth * resultIndex - 250,
+        offset: itemWidth * resultIndex - 2500,
       });
 
       setTimeout(() => onItemDrop(result), duration);
@@ -116,6 +116,7 @@ const Roulette: React.FC<RouletteProps> = ({
 
   useEffect(() => {
     if (properties?.offset !== undefined) {
+      console.log(properties.offset);
       setMargin(-properties.offset);
     }
   }, [properties?.offset]);
@@ -124,7 +125,7 @@ const Roulette: React.FC<RouletteProps> = ({
     <div className={styles.container}>
       <div className={styles.display}>
         <div className={styles.screen} />
-        <div className={styles.divider} />
+        <div className={styles.pointer} />
         <div
           className={styles.roller}
           style={{
